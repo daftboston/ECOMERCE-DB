@@ -11,9 +11,9 @@ module.exports = {
     logging: false,
   },
   test: {
-    username: "iannacus",
+    username: "postgres",
     password: "root",
-    database: "chat_db",
+    database: "ecommerce_db",
     host: "127.0.0.1",
     dialect: "postgres",
     logging: false,

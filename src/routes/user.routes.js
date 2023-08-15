@@ -3,6 +3,7 @@ const {
   createUser,
   loginUser,
   confirmEmail,
+  uploadAvatar
 } = require("../controllers/users.controller");
 const {
   loginUserValidator,
@@ -10,6 +11,7 @@ const {
 } = require("../validators/users.validators");
 const hasRole = require("../middlewares/role.middleware");
 const authenticate = require("../middlewares/auth.middleware");
+const upload = require("../middlewares/upload.middleware");
 
 // primero importen lo nativo node
 // de librerias express, express-validator
@@ -21,11 +23,15 @@ const router = Router();
 // ? que campos debo validar
 // ? que deberia validar por cada campo
 
-router.post("/users", registerUserValidator, createUser); //
 
 router.post("/login", loginUserValidator, loginUser);
 
 router.post("/confirm-email", confirmEmail);
+
+router
+  .route("/users")
+  .post(registerUserValidator, createUser)
+  .put( upload.single("avatar"), uploadAvatar);
 
 router.get(
   "/confidential",
@@ -35,6 +41,7 @@ router.get(
     res.send("Esto es confidencial");
   }
 );
+
 
 module.exports = router;
 

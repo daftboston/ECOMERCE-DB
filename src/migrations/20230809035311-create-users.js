@@ -1,58 +1,65 @@
-"use strict";
+'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Users", {
+    await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       firstname: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(30)
       },
       lastname: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(30)
       },
       username: {
         type: Sequelize.STRING(30),
-        allowNull: false,
-        unique: true,
+          unique:true,
+          allowNull:false
       },
       email: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
+        type: Sequelize.STRING,
         unique: true,
+        allowNull: false,
         validate: {
-          isEmail: true,
-        },
+          isEmail:true
+        }
       },
-      role: {
-        type: Sequelize.ENUM("user", "admin"),
-        defaultValue: "user",
+      rol: {
+        type: Sequelize.STRING,
+        defaultValue: 'member',
       },
       password: {
         type: Sequelize.STRING,
         allowNull: false,
+        validate: {
+          is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%-^&*])[A-Za-z\d!@#$%-^&*]{8,}$/,
+        },
       },
       profileImage: {
         type: Sequelize.STRING,
+        validate:{
+         isUrl:true,
+        }
       },
       validEmail: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-      },
+        type: Sequelize.DATE
+      }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Users");
-  },
+    await queryInterface.dropTable('Users');
+  }
 };
